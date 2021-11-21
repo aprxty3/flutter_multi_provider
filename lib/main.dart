@@ -9,15 +9,18 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<weightProvider>(
-      create: (context) => weightProvider(),
-      child: ChangeNotifierProvider<heightProvider>(
-        create: (context) => heightProvider(),
-        child: MaterialApp(
-          title: 'Material App',
-          debugShowCheckedModeBanner: false,
-          home: homePage(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<heightProvider>(
+          create: (context) => heightProvider(),
         ),
+        ChangeNotifierProvider<weightProvider>(
+          create: (context) => weightProvider(),
+        ),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: homePage(),
       ),
     );
   }
