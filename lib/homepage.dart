@@ -9,7 +9,7 @@ class homePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Weight (kg)',
+              'Your Weight (kg) : ',
               style: TextStyle(
                 fontSize: 20,
               ),
@@ -24,19 +24,30 @@ class homePage extends StatelessWidget {
             ),
             SizedBox(height: 20),
             Text(
-              'Height (Cm)',
+              'Your Height (Cm) : ',
               style: TextStyle(
                 fontSize: 20,
               ),
             ),
             Slider(
               min: 1,
-              max: 100,
-              value: 40,
+              max: 200,
+              value: 100,
+              activeColor: Colors.pink,
+              inactiveColor: Colors.pink.withOpacity(0.2),
               onChanged: (weightCM) {
                 print('Height: $weightCM');
               },
-            )
+            ),
+            SizedBox(height: 50),
+            Text(
+              'Your BMI : \n 62.4',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.w500,
+              ),
+              textAlign: TextAlign.center,
+            ),
           ],
         ),
       ),
