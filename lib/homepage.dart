@@ -1,4 +1,9 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_multi_provider/provider/hei_provider.dart';
+import 'package:flutter_multi_provider/provider/wei_provider.dart';
+import 'package:provider/provider.dart';
 
 class homePage extends StatelessWidget {
   @override
@@ -14,13 +19,19 @@ class homePage extends StatelessWidget {
                 fontSize: 20,
               ),
             ),
-            Slider(
-              min: 1,
-              max: 100,
-              value: 40,
-              onChanged: (heightKG) {
-                print('Weight: $heightKG');
-              },
+            Consumer<weightProvider>(
+              builder: (context, weightProvide, _) => Slider(
+                min: 1,
+                max: 100,
+                divisions: 100,
+                label: weightProvide.weight.round().toString(),
+                value: weightProvide.weight,
+                onChanged: (newValue) {
+                  newValue = newValue.roundToDouble();
+                  print('Weight: $newValue');
+                  weightProvide.weight = newValue;
+                },
+              ),
             ),
             SizedBox(height: 20),
             Text(
@@ -29,24 +40,34 @@ class homePage extends StatelessWidget {
                 fontSize: 20,
               ),
             ),
-            Slider(
-              min: 1,
-              max: 200,
-              value: 100,
-              activeColor: Colors.pink,
-              inactiveColor: Colors.pink.withOpacity(0.2),
-              onChanged: (weightCM) {
-                print('Height: $weightCM');
-              },
+            Consumer<heightProvider>(
+              builder: (context, heightProvi, _) => Slider(
+                min: 1,
+                max: 200,
+                divisions: 200,
+                label: heightProvi.height.round().toString(),
+                value: heightProvi.height,
+                activeColor: Colors.pink,
+                inactiveColor: Colors.pink.withOpacity(0.2),
+                onChanged: (newValue) {
+                  newValue = newValue.roundToDouble();
+                  print('Height: $newValue');
+                  heightProvi.height = newValue;
+                },
+              ),
             ),
             SizedBox(height: 50),
-            Text(
-              'Your BMI : \n 62.4',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.w500,
+            Consumer<weightProvider>(
+              builder: (context, weightProvi, _) => Consumer<heightProvider>(
+                builder: (context, heightProvi, _) => Text(
+                  'Your BMI : \n ${(weightProvi.weight / (pow(heightProvi.height / 100, 2))).toStringAsFixed(2)}',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
               ),
-              textAlign: TextAlign.center,
             ),
           ],
         ),
